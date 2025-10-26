@@ -1,4 +1,4 @@
-/* Don't change the existing CSS. */
+/* Don't change the existing CSS. Updated at 19:58 */
 
 .box {
   background-color: blue;
@@ -13,12 +13,10 @@ p {
   color: yellow;
   margin: 0;
   padding: 0;
-  font-size: 16px;
 }
 
 .white-text {
   background-color: red;
   color: white;
-  padding: 10px 10px;
-  margin: 0px -10px;
+  padding: 10px 0px;
 }

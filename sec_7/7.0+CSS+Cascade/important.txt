@@ -1,0 +1,43 @@
+Priority of CSS where-ever applied:
+1. Position
+2. Specificity
+3. Type
+4. Importance
+
+    Priority: Importance > Type > Specificity > Position
+
+
+
+-> On basis of Position: (Remember)
+    The last line will be of the highest Priority
+    example: 
+    li{
+        color: red
+        color: purple
+    }
+
+    => here the final color will be purple
+
+
+-> On basis of Specificity:
+1. id
+2. attribute
+3. class
+4. element
+
+    Priority: id > attribute > class > element
+
+
+-> On basis of Type:
+1. inline-style
+2. internal-CSS
+3. external-CSS
+
+    Priority: inline > internal-CSS > external-CSS
+
+
+-> On basis of Importance:
+ example: color: red;
+          color: green !important;  
+
+('!important' --> keyword has the highest Priority on CSS where-ever used)
