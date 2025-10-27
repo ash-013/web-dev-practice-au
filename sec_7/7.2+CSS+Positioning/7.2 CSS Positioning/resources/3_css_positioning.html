@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Positioning - Complete Guide</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 4px solid #27ae60;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #229954;
+            margin-top: 40px;
+            border-left: 5px solid #27ae60;
+            padding-left: 15px;
+        }
+        h3 {
+            color: #34495e;
+            margin-top: 30px;
+        }
+        .section {
+            background: white;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .code-block {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+        }
+        .example {
+            border: 2px solid #27ae60;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            background: #f0fdf4;
+        }
+        .demo-container {
+            background: #e8e8e8;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 5px;
+            min-height: 200px;
+            position: relative;
+        }
+        .demo-box {
+            background: #3498db;
+            color: white;
+            padding: 15px;
+            border: 2px solid #2980b9;
+            border-radius: 3px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .comparison-table th {
+            background: #27ae60;
+            color: white;
+        }
+        .comparison-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        .note {
+            background: #e8f4f8;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .tip {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .danger {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>📍 CSS Positioning - Complete Guide</h1>
+
+    <div class="section">
+        <h2>Introduction to CSS Positioning</h2>
+        <p>CSS positioning controls where elements appear on the page and how they interact with the document flow. Understanding positioning is crucial for creating complex layouts.</p>
+
+        <h3>The Five Position Values</h3>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Position Value</th>
+                    <th>Description</th>
+                    <th>Document Flow</th>
+                    <th>Common Use</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>static</strong></td>
+                    <td>Default positioning</td>
+                    <td>In flow</td>
+                    <td>Normal elements</td>
+                </tr>
+                <tr>
+                    <td><strong>relative</strong></td>
+                    <td>Positioned relative to itself</td>
+                    <td>In flow (space reserved)</td>
+                    <td>Slight adjustments, container for absolute</td>
+                </tr>
+                <tr>
+                    <td><strong>absolute</strong></td>
+                    <td>Positioned relative to nearest positioned ancestor</td>
+                    <td>Out of flow</td>
+                    <td>Overlays, tooltips, dropdowns</td>
+                </tr>
+                <tr>
+                    <td><strong>fixed</strong></td>
+                    <td>Positioned relative to viewport</td>
+                    <td>Out of flow</td>
+                    <td>Fixed headers, sticky buttons</td>
+                </tr>
+                <tr>
+                    <td><strong>sticky</strong></td>
+                    <td>Hybrid of relative and fixed</td>
+                    <td>In flow (until threshold)</td>
+                    <td>Sticky headers, table headers</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Positioning Offset Properties</h3>
+        <p>Once an element is positioned (not static), you can use these properties:</p>
+        <ul>
+            <li><strong>top</strong>: Distance from top edge</li>
+            <li><strong>right</strong>: Distance from right edge</li>
+            <li><strong>bottom</strong>: Distance from bottom edge</li>
+            <li><strong>left</strong>: Distance from left edge</li>
+        </ul>
+
+        <div class="note">
+            <strong>Important:</strong> These offset properties only work when <code>position</code> is set to relative, absolute, fixed, or sticky. They have no effect on <code>position: static</code>.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>1. position: static (Default)</h2>
+        <p>Elements are positioned according to the normal document flow. This is the default value.</p>
+
+        <div class="example">
+            <h4>Static Positioning Example</h4>
+            <div class="code-block">
+/* Default behavior - no need to declare */
+.element {
+    position: static;
+}
+
+/* top, right, bottom, left have NO effect on static elements */
+.element {
+    position: static;
+    top: 50px;      /* Ignored! */
+    left: 100px;    /* Ignored! */
+}
+            </div>
+
+            <div class="demo-container">
+                <div class="demo-box" style="width: 200px;">Box 1 (Static)</div>
+                <div class="demo-box" style="width: 200px; margin-top: 10px;">Box 2 (Static)</div>
+                <div class="demo-box" style="width: 200px; margin-top: 10px;">Box 3 (Static)</div>
+            </div>
+
+            <div class="note">
+                <strong>Key Points:</strong>
+                <ul>
+                    <li>Elements flow naturally top to bottom</li>
+                    <li>Block elements stack vertically</li>
+                    <li>Inline elements flow left to right</li>
+                    <li>Cannot use offset properties (top, left, etc.)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>2. position: relative</h2>
+        <p>Element is positioned relative to its normal position in the flow. The space it originally occupied is preserved.</p>
+
+        <div class="example">
+            <h4>Relative Positioning Basics</h4>
+            <div class="code-block">
+.box {
+    position: relative;
+    top: 20px;      /* Move 20px down from original position */
+    left: 30px;     /* Move 30px right from original position */
+}
+
+/* Negative values move in opposite direction */
+.box-2 {
+    position: relative;
+    top: -10px;     /* Move 10px up */
+    right: 20px;    /* Move 20px left (opposite of left) */
+}
+            </div>
+
+            <div class="demo-container">
+                <div class="demo-box" style="width: 150px; display: inline-block;">Normal Box</div>
+                <div class="demo-box" style="width: 150px; display: inline-block; position: relative; top: 20px; left: 30px; background: #e74c3c;">
+                    Relative Box<br>
+                    <small>top: 20px; left: 30px;</small>
+                </div>
+                <div class="demo-box" style="width: 150px; display: inline-block;">Normal Box</div>
+                <p style="margin-top: 20px; color: #666;"><em>Notice: The space for the relative box is still reserved in the original location</em></p>
+            </div>
+
+            <div class="tip">
+                <strong>💡 Common Uses:</strong>
+                <ul>
+                    <li>Slight positioning adjustments</li>
+                    <li>Creating a positioning context for absolute children</li>
+                    <li>Using z-index without removing from flow</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>Relative as Container for Absolute</h4>
+            <div class="code-block">
+/* HTML */
+&lt;div class="card"&gt;
+    &lt;div class="badge"&gt;NEW&lt;/div&gt;
+    &lt;h3&gt;Product Title&lt;/h3&gt;
+    &lt;p&gt;Product description...&lt;/p&gt;
+&lt;/div&gt;
+
+/* CSS */
+.card {
+    position: relative;    /* Creates positioning context */
+    padding: 20px;
+    border: 1px solid #ddd;
+}
+
+.badge {
+    position: absolute;    /* Positioned relative to .card */
+    top: 10px;
+    right: 10px;
+    background: red;
+    color: white;
+    padding: 5px 10px;
+}
+            </div>
+
+            <div class="demo-container">
+                <div style="position: relative; background: white; padding: 20px; border: 2px solid #ddd; border-radius: 5px; width: 300px;">
+                    <div style="position: absolute; top: 10px; right: 10px; background: red; color: white; padding: 5px 10px; border-radius: 3px; font-size: 0.8em;">NEW</div>
+                    <h4 style="margin-top: 0;">Product Card</h4>
+                    <p>This card has a relative position, allowing the badge to be positioned absolutely within it.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>Z-Index with Relative Positioning</h4>
+            <div class="code-block">
+.box-1 {
+    position: relative;
+    z-index: 2;
+    background: blue;
+}
+
+.box-2 {
+    position: relative;
+    z-index: 1;
+    background: red;
+    margin-top: -30px;    /* Create overlap */
+}
+
+/* box-1 appears above box-2 */
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>3. position: absolute</h2>
+        <p>Element is removed from the normal document flow and positioned relative to its nearest positioned ancestor (or viewport if none exists).</p>
+
+        <div class="example">
+            <h4>Absolute Positioning Basics</h4>
+            <div class="code-block">
+.container {
+    position: relative;    /* Positioning context */
+    width: 500px;
+    height: 300px;
+    border: 2px solid black;
+}
+
+.absolute-box {
+    position: absolute;
+    top: 20px;             /* 20px from container's top */
+    right: 30px;           /* 30px from container's right */
+    width: 100px;
+    height: 100px;
+    background: red;
+}
+            </div>
+
+            <div class="demo-container" style="position: relative; height: 300px; border: 2px dashed #333;">
+                <div class="demo-box" style="position: absolute; top: 20px; right: 30px; width: 100px; height: 100px; background: #e74c3c;">
+                    Absolute<br>
+                    <small>top: 20px<br>right: 30px</small>
+                </div>
+                <div class="demo-box" style="position: absolute; bottom: 20px; left: 30px; width: 100px; height: 100px; background: #27ae60;">
+                    Absolute<br>
+                    <small>bottom: 20px<br>left: 30px</small>
+                </div>
+                <div class="demo-box" style="width: 200px;">Normal Flow Element</div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>Centering with Absolute Positioning</h4>
+            <div class="code-block">
+/* Method 1: Using transform */
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Method 2: Using all edges + margin auto */
+.centered-2 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    width: 200px;      /* Must have defined width/height */
+    height: 100px;
+}
+
+/* Method 3: Using calc() */
+.centered-3 {
+    position: absolute;
+    top: calc(50% - 50px);    /* 50px = half of height */
+    left: calc(50% - 100px);  /* 100px = half of width */
+    width: 200px;
+    height: 100px;
+}
+            </div>
+
+            <div class="demo-container" style="position: relative; height: 250px; border: 2px dashed #333;">
+                <div class="demo-box" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 200px;">
+                    Centered Box<br>
+                    <small>Using transform</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>Common Absolute Positioning Patterns</h4>
+            <div class="code-block">
+/* Top-right corner */
+.top-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+/* Bottom-left corner */
+.bottom-left {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+/* Full width at top */
+.full-width-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+/* Full height on right */
+.full-height-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/* Cover entire parent */
+.full-cover {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+/* Overlay with transparency */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>Practical Example: Modal/Dialog</h4>
+            <div class="code-block">
+/* HTML */
+&lt;div class="modal-overlay"&gt;
+    &lt;div class="modal"&gt;
+        &lt;button class="close-btn"&gt;×&lt;/button&gt;
+        &lt;h2&gt;Modal Title&lt;/h2&gt;
+        &lt;p&gt;Modal content...&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+/* CSS */
+.modal-overlay {
+    position: fixed;          /* Cover entire viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    position: relative;       /* Context for close button */
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
+}
+
+.close-btn {
+    position: absolute;       /* Position in corner of modal */
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+            </div>
+        </div>
+
+        <div class="warning">
+            <strong>⚠️ Important Notes:</strong>
+            <ul>
+                <li>Absolute elements are removed from normal flow</li>
+                <li>Other elements act as if the absolute element doesn't exist</li>
+                <li>Width collapses to content unless specified</li>
+                <li>Positioned relative to nearest positioned ancestor (not static)</li>
+                <li>If no positioned ancestor exists, positioned relative to initial containing block (viewport)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>4. position: fixed</h2>
+        <p>Element is positioned relative to the viewport and stays in place during scrolling.</p>
+
+        <div class="example">
+            <h4>Fixed Positioning Basics</h4>
+            <div class="code-block">
+/* Fixed header */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 100;
+}
+
+/* Fixed footer */
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #333;
+    color: white;
+    padding: 20px;
+}
+
+/* Fixed sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 100vh;
+    background: #f5f5f5;
+}
+            </div>
+
+            <div class="note">
+                <strong>Key Characteristics:</strong>
+                <ul>
+                    <li>Always positioned relative to viewport</li>
+                    <li>Does not scroll with page</li>
+                    <li>Removed from document flow</li>
+                    <li>Ignores positioned ancestors</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>Common Fixed Position Patterns</h4>
+            <div class="code-block">
+/* Fixed header with body padding */
+.fixed-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 60px;
+    z-index: 1000;
+}
+
+body {
+    padding-top: 60px;    /* Prevent content from hiding under header */
+}
+
+/* Back to top button */
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background: #007bff;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 999;
+}
+
+/* Chat widget */
+.chat-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background: #25d366;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Loading overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+/* Cookie notice */
+.cookie-notice {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>Fixed Navigation Example</h4>
+            <div class="code-block">
+/* HTML */
+&lt;nav class="navbar"&gt;
+    &lt;div class="container"&gt;
+        &lt;div class="logo"&gt;Logo&lt;/div&gt;
+        &lt;ul class="nav-menu"&gt;
+            &lt;li&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#"&gt;About&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#"&gt;Contact&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/nav&gt;
+
+/* CSS */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.navbar .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+/* Add padding to body so content doesn't hide */
+body {
+    padding-top: 70px;
+}
+            </div>
+
+            <div class="demo-container" style="height: 100px; overflow: hidden; border: 2px solid #333;">
+                <div style="position: fixed; top: 0; left: 0; right: 0; background: #333; color: white; padding: 15px 20px; z-index: 10;">
+                    Fixed Navigation Bar
+                </div>
+                <div style="padding-top: 60px;">
+                    <p>Content below the fixed navbar...</p>
+                    <p>More content...</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="danger">
+            <strong>🚨 Fixed Positioning Gotchas:</strong>
+            <ul>
+                <li>Fixed elements ignore ancestor positioning</li>
+                <li>Can cause layout issues on mobile devices</li>
+                <li>Remember to add padding to body to prevent content overlap</li>
+                <li>May not work as expected with <code>transform</code> on ancestors</li>
+                <li>Can affect scrollbar width calculations</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>5. position: sticky</h2>
+        <p>A hybrid of relative and fixed positioning. Element behaves as relative until a scroll threshold is reached, then acts as fixed.</p>
+
+        <div class="example">
+            <h4>Sticky Positioning Basics</h4>
+            <div class="code-block">
+.sticky-header {
+    position: sticky;
+    top: 0;                   /* Threshold: stick when 0px from top */
+    background: white;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 10;
+}
+
+/* Sticky sidebar */
+.sticky-sidebar {
+    position: sticky;
+    top: 20px;                /* Stick 20px from top */
+}
+
+/* Sticky table header */
+thead th {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 10;
+}
+            </div>
+
+            <div class="note">
+                <strong>How Sticky Works:</strong>
+                <ol>
+                    <li>Element is treated as <code>relative</code> within its container</li>
+                    <li>When scrolled to threshold (e.g., <code>top: 0</code>), it "sticks"</li>
+                    <li>Remains sticky until its container scrolls out of view</li>
+                    <li>Then continues scrolling with container</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>Sticky Requirements</h4>
+            <div class="code-block">
+/* ❌ WON'T WORK - Missing threshold */
+.element {
+    position: sticky;
+    /* Need at least one: top, right, bottom, or left */
+}
+
+/* ✅ WORKS - Has threshold */
+.element {
+    position: sticky;
+    top: 0;
+}
+
+/* ❌ WON'T WORK - Parent has overflow hidden */
+.parent {
+    overflow: hidden;    /* Breaks sticky! */
+}
+
+.child {
+    position: sticky;
+    top: 0;
+}
+
+/* ✅ WORKS - Parent has visible overflow */
+.parent {
+    overflow: visible;   /* or overflow: auto/scroll */
+}
+            </div>
+
+            <div class="warning">
+                <strong>⚠️ Sticky Gotchas:</strong>
+                <ul>
+                    <li>Must specify at least one threshold (top, right, bottom, left)</li>
+                    <li>Parent cannot have <code>overflow: hidden</code></li>
+                    <li>Parent must have a height (implicit or explicit)</li>
+                    <li>Sticky element must have room to stick within container</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>Common Sticky Patterns</h4>
+            <div class="code-block">
+/* Sticky navigation */
+.main-nav {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 100;
+}
+
+/* Sticky table headers */
+table {
+    border-collapse: collapse;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    background: #f0f0f0;
+    z-index: 10;
+}
+
+/* Sticky section headers (stacked) */
+.section-header {
+    position: sticky;
+    top: 60px;              /* Below main nav */
+    background: white;
+    padding: 10px;
+    border-bottom: 2px solid #ddd;
+}
+
+/* Sticky sidebar in article */
+.article-container {
+    display: flex;
+    gap: 30px;
+}
+
+.article-content {
+    flex: 1;
+}
+
+.article-sidebar {
+    position: sticky;
+    top: 20px;
+    width: 300px;
+    height: fit-content;    /* Important! */
+}
+
+/* Sticky footer-like element */
+.sticky-cta {
+    position: sticky;
+    bottom: 0;
+    background: #007bff;
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>Practical Example: Sticky Table Headers</h4>
+            <div class="code-block">
+/* HTML */
+&lt;table class="data-table"&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Name&lt;/th&gt;
+            &lt;th&gt;Email&lt;/th&gt;
+            &lt;th&gt;Role&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;!-- Many rows... --&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;
+
+/* CSS */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.data-table th {
+    background: #2c3e50;
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.data-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.data-table tbody tr:hover {
+    background: #f5f5f5;
+}
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>Multiple Sticky Elements (Stacking)</h4>
+            <div class="code-block">
+/* Primary nav at top */
+.primary-nav {
+    position: sticky;
+    top: 0;
+    height: 60px;
+    background: #333;
+    z-index: 100;
+}
+
+/* Secondary nav below primary */
+.secondary-nav {
+    position: sticky;
+    top: 60px;              /* Height of primary nav */
+    height: 50px;
+    background: #555;
+    z-index: 99;
+}
+
+/* Section headers below both navs */
+.section-header {
+    position: sticky;
+    top: 110px;             /* 60 + 50 */
+    background: white;
+    z-index: 98;
+}
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>6. Z-Index and Stacking Context</h2>
+        <p>Z-index controls the stacking order of positioned elements along the z-axis (depth).</p>
+
+        <div class="example">
+            <h4>Z-Index Basics</h4>
+            <div class="code-block">
+/* Z-index only works on positioned elements */
+.box-1 {
+    position: relative;
+    z-index: 1;
+}
+
+.box-2 {
+    position: relative;
+    z-index: 2;        /* Appears above box-1 */
+}
+
+/* Higher z-index = closer to user */
+.low {
+    position: absolute;
+    z-index: 1;
+}
+
+.medium {
+    position: absolute;
+    z-index: 10;
+}
+
+.high {
+    position: absolute;
+    z-index: 100;
+}
+
+/* Negative z-index */
+.behind {
+    position: relative;
+    z-index: -1;       /* Behind parent */
+}
+            </div>
+
+            <div class="demo-container" style="position: relative; height: 200px;">
+                <div class="demo-box" style="position: absolute; top: 20px; left: 20px; width: 150px; height: 100px; background: #3498db; z-index: 1;">
+                    Z-Index: 1
+                </div>
+                <div class="demo-box" style="position: absolute; top: 50px; left: 70px; width: 150px; height: 100px; background: #e74c3c; z-index: 3;">
+                    Z-Index: 3
+                </div>
+                <div class="demo-box" style="position: absolute; top: 80px; left: 120px; width: 150px; height: 100px; background: #27ae60; z-index: 2;">
+                    Z-Index: 2
+                </div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>Stacking Context</h4>
+            <div class="code-block">
+/* A new stacking context is created by: */
+- position: relative/absolute/fixed/sticky with z-index != auto
+- position: fixed or sticky (always creates context)
+- opacity &lt; 1
+- transform, filter, perspective, clip-path (not none)
+- will-change (with certain properties)
+- isolation: isolate
+
+/* Example of stacking context issues */
+.parent-1 {
+    position: relative;
+    z-index: 1;
+}
+
+.child-1 {
+    position: relative;
+    z-index: 9999;         /* Still behind parent-2! */
+}
+
+.parent-2 {
+    position: relative;
+    z-index: 2;            /* Creates new stacking context */
+}
+
+.child-2 {
+    position: relative;
+    z-index: 1;            /* Appears above child-1 */
+}
+            </div>
+
+            <div class="warning">
+                <strong>⚠️ Common Z-Index Issues:</strong>
+                <ul>
+                    <li>Z-index only works on positioned elements</li>
+                    <li>Children cannot escape parent's stacking context</li>
+                    <li>A child with z-index: 9999 inside z-index: 1 parent loses to z-index: 2 sibling</li>
+                    <li>Auto z-index doesn't create stacking context (except for fixed/sticky)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>Practical Z-Index Scale</h4>
+            <div class="code-block">
+/* Recommended z-index scale for maintainability */
+:root {
+    --z-dropdown: 1000;
+    --z-sticky: 1020;
+    --z-fixed: 1030;
+    --z-modal-backdrop: 1040;
+    --z-modal: 1050;
+    --z-popover: 1060;
+    --z-tooltip: 1070;
+}
+
+.dropdown {
+    z-index: var(--z-dropdown);
+}
+
+.sticky-header {
+    z-index: var(--z-sticky);
+}
+
+.fixed-nav {
+    z-index: var(--z-fixed);
+}
+
+.modal-overlay {
+    z-index: var(--z-modal-backdrop);
+}
+
+.modal {
+    z-index: var(--z-modal);
+}
+
+.tooltip {
+    z-index: var(--z-tooltip);
+}
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>7. Positioning Best Practices</h2>
+
+        <div class="tip">
+            <h3>DO's ✅</h3>
+            <ul>
+                <li>Use <code>position: relative</code> as a container for absolute children</li>
+                <li>Add body padding when using fixed headers/footers</li>
+                <li>Use CSS custom properties for z-index values</li>
+                <li>Keep z-index values organized (e.g., 10, 20, 30...)</li>
+                <li>Use <code>sticky</code> for navigation and table headers</li>
+                <li>Combine positioning with flexbox/grid for complex layouts</li>
+                <li>Test sticky positioning in all target browsers</li>
+            </ul>
+        </div>
+
+        <div class="danger">
+            <h3>DON'Ts ❌</h3>
+            <ul>
+                <li>Don't use arbitrary z-index values (999999)</li>
+                <li>Don't forget to add a positioned ancestor for absolute elements</li>
+                <li>Don't use <code>overflow: hidden</code> on sticky parents</li>
+                <li>Don't position everything absolutely (breaks responsiveness)</li>
+                <li>Don't forget mobile considerations with fixed/sticky</li>
+                <li>Don't create unnecessary stacking contexts</li>
+                <li>Don't use positioning where flexbox/grid would be better</li>
+            </ul>
+        </div>
+
+        <div class="example">
+            <h4>Good vs Bad Examples</h4>
+            <div class="code-block">
+/* ❌ BAD: Random high z-index */
+.modal {
+    z-index: 999999;
+}
+
+/* ✅ GOOD: Organized z-index */
+.modal {
+    z-index: var(--z-modal);
+}
+
+/* ❌ BAD: Absolute without positioned parent */
+.child {
+    position: absolute;
+    top: 20px;
+    /* Positioned relative to viewport! */
+}
+
+/* ✅ GOOD: Proper parent context */
+.parent {
+    position: relative;
+}
+
+.child {
+    position: absolute;
+    top: 20px;
+    /* Positioned relative to .parent */
+}
+
+/* ❌ BAD: Using absolute for layout */
+.layout {
+    position: absolute;
+    width: 50%;
+    /* Breaks on different screen sizes */
+}
+
+/* ✅ GOOD: Use flexbox/grid */
+.layout {
+    display: flex;
+    flex: 1;
+}
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>8. Complete Practical Examples</h2>
+
+        <div class="example">
+            <h4>Example 1: Card with Badge</h4>
+            <div class="code-block">
+/* HTML */
+&lt;div class="product-card"&gt;
+    &lt;span class="badge"&gt;Sale&lt;/span&gt;
+    &lt;img src="product.jpg" alt="Product"&gt;
+    &lt;h3&gt;Product Name&lt;/h3&gt;
+    &lt;p class="price"&gt;$29.99&lt;/p&gt;
+&lt;/div&gt;
+
+/* CSS */
+.product-card {
+    position: relative;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.badge {
+    position: absolute;
+    top: 10px;
+    right: -30px;
+    background: #e74c3c;
+    color: white;
+    padding: 5px 40px;
+    transform: rotate(45deg);
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.product-card img {
+    width: 100%;
+    border-radius: 4px;
+}
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>Example 2: Fixed Header with Smooth Scroll</h4>
+            <div class="code-block">
+/* HTML */
+&lt;header class="site-header"&gt;
+    &lt;nav&gt;...&lt;/nav&gt;
+&lt;/header&gt;
+&lt;main class="content"&gt;
+    &lt;section id="section-1"&gt;...&lt;/section&gt;
+    &lt;section id="section-2"&gt;...&lt;/section&gt;
+&lt;/main&gt;
+
+/* CSS */
+.site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+    transition: transform 0.3s;
+}
+
+/* Hide header on scroll down */
+.site-header.hide {
+    transform: translateY(-100%);
+}
+
+body {
+    padding-top: 60px;
+}
+
+/* Smooth scroll for anchor links */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;  /* Account for fixed header */
+}
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>Example 3: Centered Modal</h4>
+            <div class="code-block">
+/* HTML */
+&lt;div class="modal-container"&gt;
+    &lt;div class="modal-backdrop"&gt;&lt;/div&gt;
+    &lt;div class="modal"&gt;
+        &lt;button class="modal-close"&gt;×&lt;/button&gt;
+        &lt;div class="modal-header"&gt;
+            &lt;h2&gt;Modal Title&lt;/h2&gt;
+        &lt;/div&gt;
+        &lt;div class="modal-body"&gt;
+            &lt;p&gt;Modal content...&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;div class="modal-footer"&gt;
+            &lt;button&gt;Cancel&lt;/button&gt;
+            &lt;button&gt;Confirm&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+/* CSS */
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.modal {
+    position: relative;
+    background: white;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow: auto;
+    z-index: 2;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: #999;
+    line-height: 1;
+    padding: 5px 10px;
+}
+
+.modal-header,
+.modal-body,
+.modal-footer {
+    padding: 20px;
+}
+
+.modal-header {
+    border-bottom: 1px solid #eee;
+}
+
+.modal-footer {
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>Example 4: Sticky Sidebar with Content</h4>
+            <div class="code-block">
+/* HTML */
+&lt;div class="page-layout"&gt;
+    &lt;aside class="sidebar"&gt;
+        &lt;div class="sidebar-content"&gt;
+            &lt;nav&gt;...&lt;/nav&gt;
+        &lt;/div&gt;
+    &lt;/aside&gt;
+    &lt;main class="main-content"&gt;
+        &lt;article&gt;...&lt;/article&gt;
+    &lt;/main&gt;
+&lt;/div&gt;
+
+/* CSS */
+.page-layout {
+    display: flex;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.sidebar {
+    width: 250px;
+    flex-shrink: 0;
+}
+
+.sidebar-content {
+    position: sticky;
+    top: 20px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+}
+
+.main-content {
+    flex: 1;
+    min-width: 0;  /* Prevent flex item from overflowing */
+}
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>9. Position Comparison Summary</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>static</th>
+                    <th>relative</th>
+                    <th>absolute</th>
+                    <th>fixed</th>
+                    <th>sticky</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Document Flow</strong></td>
+                    <td>In flow</td>
+                    <td>In flow</td>
+                    <td>Out of flow</td>
+                    <td>Out of flow</td>
+                    <td>In flow (until stuck)</td>
+                </tr>
+                <tr>
+                    <td><strong>Positioned relative to</strong></td>
+                    <td>Normal flow</td>
+                    <td>Self</td>
+                    <td>Nearest positioned ancestor</td>
+                    <td>Viewport</td>
+                    <td>Scroll container</td>
+                </tr>
+                <tr>
+                    <td><strong>Uses top/left/etc</strong></td>
+                    <td>❌ No</td>
+                    <td>✅ Yes</td>
+                    <td>✅ Yes</td>
+                    <td>✅ Yes</td>
+                    <td>✅ Yes (required)</td>
+                </tr>
+                <tr>
+                    <td><strong>Affects other elements</strong></td>
+                    <td>✅ Yes</td>
+                    <td>✅ Yes (space reserved)</td>
+                    <td>❌ No</td>
+                    <td>❌ No</td>
+                    <td>✅ Yes (until stuck)</td>
+                </tr>
+                <tr>
+                    <td><strong>Scrolls with page</strong></td>
+                    <td>✅ Yes</td>
+                    <td>✅ Yes</td>
+                    <td>✅ Yes (with container)</td>
+                    <td>❌ No</td>
+                    <td>❌ No (when stuck)</td>
+                </tr>
+                <tr>
+                    <td><strong>Creates stacking context</strong></td>
+                    <td>❌ No</td>
+                    <td>With z-index</td>
+                    <td>With z-index</td>
+                    <td>✅ Always</td>
+                    <td>✅ Always</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

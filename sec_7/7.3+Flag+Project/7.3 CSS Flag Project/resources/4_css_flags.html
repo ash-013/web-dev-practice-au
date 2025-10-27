@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Flags & Feature Detection - Complete Guide</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 4px solid #9b59b6;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #8e44ad;
+            margin-top: 40px;
+            border-left: 5px solid #9b59b6;
+            padding-left: 15px;
+        }
+        h3 {
+            color: #34495e;
+            margin-top: 30px;
+        }
+        .section {
+            background: white;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .code-block {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+        }
+        .example {
+            border: 2px solid #9b59b6;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            background: #f8f4fb;
+        }
+        .demo {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #bdc3c7;
+            border-radius: 3px;
+        }
+        .note {
+            background: #e8f4f8;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .tip {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .info-box {
+            background: #f0f4ff;
+            border: 2px solid #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table th,
+        table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        table th {
+            background: #9b59b6;
+            color: white;
+        }
+        table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚩 CSS Flags & Feature Detection - Complete Guide</h1>
+
+    <div class="info-box">
+        <h3>What are "CSS Flags"?</h3>
+        <p>The term "CSS Flags" can refer to several concepts:</p>
+        <ul>
+            <li><strong>Feature Queries (@supports)</strong> - Detecting CSS feature support</li>
+            <li><strong>Custom Properties as Flags</strong> - Using CSS variables as boolean switches</li>
+            <li><strong>Attribute Selectors</strong> - Using data attributes as flags</li>
+            <li><strong>Browser Feature Flags</strong> - Experimental CSS features</li>
+            <li><strong>Media Query Flags</strong> - Detecting device/browser capabilities</li>
+        </ul>
+        <p>This guide covers all these concepts in depth!</p>
+    </div>
+
+    <div class="section">
+        <h2>1. CSS Feature Queries (@supports)</h2>
+        <p>The <code>@supports</code> rule allows you to apply CSS based on whether a browser supports specific CSS features.</p>
+
+        <h3>1.1 Basic @supports Syntax</h3>
+        <div class="example">
+            <div class="code-block">
+/* Basic feature detection */
+@supports (display: grid) {
+    .container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Fallback for browsers without grid support */
+.container {
+    display: flex;  /* Default fallback */
+}
+
+@supports (display: grid) {
+    .container {
+        display: grid;  /* Override if supported */
+    }
+}
+            </div>
+        </div>
+
+        <h3>1.2 Testing CSS Properties</h3>
+        <div class="example">
+            <div class="code-block">
+/* Test if property is supported */
+@supports (backdrop-filter: blur(10px)) {
+    .glassmorphism {
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.1);
+    }
+}
+
+/* Test custom properties */
+@supports (--custom: value) {
+    .element {
+        color: var(--primary-color);
+    }
+}
+
+/* Test property-value combinations */
+@supports (display: flex) {
+    .flex-container {
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
+/* Test newer properties */
+@supports (aspect-ratio: 16/9) {
+    .video-container {
+        aspect-ratio: 16 / 9;
+    }
+}
+
+@supports (gap: 20px) {
+    .flex-grid {
+        display: flex;
+        gap: 20px;
+    }
+}
+            </div>
+        </div>
+
+        <h3>1.3 Logical Operators (AND, OR, NOT)</h3>
+        <div class="example">
+            <h4>AND Operator</h4>
+            <div class="code-block">
+/* Both conditions must be true */
+@supports (display: grid) and (gap: 20px) {
+    .modern-grid {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+}
+
+/* Multiple AND conditions */
+@supports (display: flex) and (gap: 1rem) and (aspect-ratio: 1) {
+    .card {
+        display: flex;
+        gap: 1rem;
+        aspect-ratio: 1;
+    }
+}
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>OR Operator</h4>
+            <div class="code-block">
+/* At least one condition must be true */
+@supports (display: grid) or (display: flex) {
+    .container {
+        /* Modern layout supported */
+    }
+}
+
+/* Vendor prefixes */
+@supports (backdrop-filter: blur(10px)) or 
+          (-webkit-backdrop-filter: blur(10px)) {
+    .blur-background {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+}
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>NOT Operator</h4>
+            <div class="code-block">
+/* If NOT supported, use fallback */
+@supports not (display: grid) {
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
+
+/* Exclude browsers with support */
+@supports not (backdrop-filter: blur(10px)) {
+    .background {
+        background: rgba(255, 255, 255, 0.9);
+        /* Solid background fallback */
+    }
+}
+            </div>
+        </div>
+
+        <h3>1.4 Complex Conditions</h3>
+        <div class="example">
+            <div class="code-block">
+/* Combining operators with parentheses */
+@supports ((display: grid) and (gap: 20px)) or (display: flex) {
+    .layout {
+        /* Use grid if gap is supported, otherwise flex */
+    }
+}
+
+/* Advanced feature detection */
+@supports (display: grid) and 
+          (not (grid-template-columns: subgrid)) {
+    .grid-container {
+        /* Grid supported but not subgrid */
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Checking for specific values */
+@supports (position: sticky) or (position: -webkit-sticky) {
+    .sticky-header {
+        position: sticky;
+        position: -webkit-sticky;
+        top: 0;
+    }
+}
+            </div>
+        </div>
+
+        <h3>1.5 Practical @supports Examples</h3>
+        <div class="example">
+            <h4>Example 1: Progressive Enhancement with Grid</h4>
+            <div class="code-block">
+/* Base layout (works everywhere) */
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -10px;
+}
+
+.gallery-item {
+    flex: 0 0 calc(33.333% - 20px);
+    margin: 10px;
+}
+
+/* Enhanced layout (modern browsers) */
+@supports (display: grid) {
+    .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        margin: 0;
+    }
+    
+    .gallery-item {
+        flex: none;
+        margin: 0;
+    }
+}
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>Example 2: Backdrop Filter with Fallback</h4>
+            <div class="code-block">
+.modal-backdrop {
+    background: rgba(0, 0, 0, 0.8);  /* Fallback */
+}
+
+@supports (backdrop-filter: blur(10px)) or 
+          (-webkit-backdrop-filter: blur(10px)) {
+    .modal-backdrop {
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+}
+            </div>
+
+            <div class="demo">
+                <div style="position: relative; height: 200px; background: linear-gradient(45deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                    <div style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); padding: 30px; border-radius: 8px; color: white;">
+                        <h4 style="margin: 0;">Glassmorphism Effect</h4>
+                        <p style="margin: 10px 0 0;">Using backdrop-filter</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>Example 3: Container Queries Detection</h4>
+            <div class="code-block">
+/* Fallback: Use media queries */
+@media (min-width: 768px) {
+    .card {
+        display: flex;
+        gap: 20px;
+    }
+}
+
+/* Enhanced: Use container queries if supported */
+@supports (container-type: inline-size) {
+    .card-container {
+        container-type: inline-size;
+    }
+    
+    @container (min-width: 400px) {
+        .card {
+            display: flex;
+            gap: 20px;
+        }
+    }
+}
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>Example 4: CSS Nesting Detection</h4>
+            <div class="code-block">
+@supports (selector(&amp;)) {
+    /* Native CSS nesting supported */
+    .card {
+        padding: 20px;
+        
+        &amp; .title {
+            font-size: 1.5em;
+        }
+        
+        &amp;:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+    }
+}
+
+@supports not (selector(&amp;)) {
+    /* Fallback: Traditional CSS */
+    .card {
+        padding: 20px;
+    }
+    
+    .card .title {
+        font-size: 1.5em;
+    }
+    
+    .card:hover {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+}
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>2. CSS Custom Properties as Flags</h2>
+        <p>Use CSS custom properties (variables) as boolean flags or switches to control styling.</p>
+
+        <h3>2.1 Boolean-style Flags</h3>
+        <div class="example">
+            <div class="code-block">
+:root {
+    --is-dark-mode: 0;  /* 0 = off, 1 = on */
+    --is-mobile: 0;
+    --has-sidebar: 1;
+}
+
+/* Use calc() to create conditional styles */
+.element {
+    padding: calc(10px + (10px * var(--is-mobile)));
+    /* Mobile: 20px, Desktop: 10px */
+}
+
+/* Toggle styles based on flag */
+.sidebar {
+    display: block;
+    opacity: var(--has-sidebar);
+    pointer-events: var(--has-sidebar) ? auto : none;
+}
+
+/* Color scheme based on flag */
+body {
+    background: hsl(
+        0, 
+        0%, 
+        calc(100% - (80% * var(--is-dark-mode)))
+    );
+    /* Light mode: 100%, Dark mode: 20% */
+}
+            </div>
+        </div>
+
+        <h3>2.2 Feature Flags with Custom Properties</h3>
+        <div class="example">
+            <div class="code-block">
+:root {
+    /* Feature flags */
+    --enable-animations: 1;
+    --enable-shadows: 1;
+    --enable-gradients: 0;
+    --enable-blur: 1;
+}
+
+/* Conditional animations */
+.button {
+    transition: transform 0.3s;
+    transition-duration: calc(0.3s * var(--enable-animations));
+}
+
+.button:hover {
+    transform: scale(calc(1 + (0.05 * var(--enable-animations))));
+}
+
+/* Conditional shadows */
+.card {
+    box-shadow: 
+        0 
+        calc(4px * var(--enable-shadows)) 
+        calc(12px * var(--enable-shadows)) 
+        rgba(0, 0, 0, calc(0.15 * var(--enable-shadows)));
+}
+
+/* Conditional blur */
+.backdrop {
+    backdrop-filter: blur(calc(10px * var(--enable-blur)));
+}
+            </div>
+        </div>
+
+        <h3>2.3 Theme Switching with Flags</h3>
+        <div class="example">
+            <div class="code-block">
+/* Define themes using flags */
+:root {
+    --theme: 0;  /* 0 = light, 1 = dark */
+}
+
+:root[data-theme="dark"] {
+    --theme: 1;
+}
+
+/* Dynamic colors based on theme */
+body {
+    --bg-light: #ffffff;
+    --bg-dark: #1a1a1a;
+    --text-light: #333333;
+    --text-dark: #f0f0f0;
+    
+    background: hsl(
+        0, 
+        0%, 
+        calc(
+            (100% * (1 - var(--theme))) + 
+            (10% * var(--theme))
+        )
+    );
+    
+    color: hsl(
+        0, 
+        0%, 
+        calc(
+            (20% * (1 - var(--theme))) + 
+            (94% * var(--theme))
+        )
+    );
+}
+
+/* Toggle with JavaScript */
+/* document.documentElement.setAttribute('data-theme', 'dark'); */
+            </div>
+        </div>
+
+        <h3>2.4 Responsive Flags</h3>
+        <div class="example">
+            <div class="code-block">
+:root {
+    --is-small: 0;
+    --is-medium: 0;
+    --is-large: 0;
+}
+
+@media (max-width: 767px) {
+    :root {
+        --is-small: 1;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    :root {
+        --is-medium: 1;
+    }
+}
+
+@media (min-width: 1024px) {
+    :root {
+        --is-large: 1;
+    }
+}
+
+/* Use flags for responsive design */
+.container {
+    padding: calc(
+        (10px * var(--is-small)) +
+        (20px * var(--is-medium)) +
+        (40px * var(--is-large))
+    );
+}
+
+.grid {
+    grid-template-columns: repeat(
+        calc(
+            (1 * var(--is-small)) +
+            (2 * var(--is-medium)) +
+            (4 * var(--is-large))
+        ),
+        1fr
+    );
+}
+            </div>
+        </div>
+
+        <h3>2.5 Component State Flags</h3>
+        <div class="example">
+            <div class="code-block">
+/* HTML */
+&lt;button class="btn" style="--is-primary: 1; --is-disabled: 0;"&gt;
+    Primary Button
+&lt;/button&gt;
+
+/* CSS */
+.btn {
+    --is-primary: 0;
+    --is-secondary: 0;
+    --is-disabled: 0;
+    
+    /* Base styles */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    
+    /* Conditional colors */
+    background: hsl(
+        calc(220 * var(--is-primary) + 0 * var(--is-secondary)),
+        calc(100% * var(--is-primary) + 0% * var(--is-secondary)),
+        calc(50% * var(--is-primary) + 80% * var(--is-secondary))
+    );
+    
+    /* Conditional disabled state */
+    opacity: calc(1 - (0.5 * var(--is-disabled)));
+    pointer-events: calc(1 - var(--is-disabled)) ? auto : none;
+}
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>3. Data Attribute Flags</h2>
+        <p>Use HTML data attributes as flags to control CSS behavior.</p>
+
+        <h3>3.1 Basic Data Attribute Flags</h3>
+        <div class="example">
+            <div class="code-block">
+/* HTML */
+&lt;div class="card" data-featured="true"&gt;...&lt;/div&gt;
+&lt;div class="card" data-featured="false"&gt;...&lt;/div&gt;
+
+/* CSS */
+.card {
+    border: 1px solid #ddd;
+}
+
+.card[data-featured="true"] {
+    border: 3px solid gold;
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+}
+
+.card[data-featured="true"]::before {
+    content: "⭐ Featured";
+    display: block;
+    background: gold;
+    padding: 5px 10px;
+    margin: -10px -10px 10px;
+    font-weight: bold;
+}
+            </div>
+
+            <div class="demo">
+                <div style="border: 3px solid gold; padding: 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);">
+                    <div style="background: gold; padding: 5px 10px; margin: -20px -20px 15px; font-weight: bold; border-radius: 5px 5px 0 0;">⭐ Featured</div>
+                    <h4 style="margin: 0;">Featured Card</h4>
+                    <p>This card has data-featured="true"</p>
+                </div>
+            </div>
+        </div>
+
+        <h3>3.2 State Management with Data Attributes</h3>
+        <div class="example">
+            <div class="code-block">
+/* HTML */
+&lt;div class="component" 
+     data-state="loading"
+     data-variant="primary"
+     data-size="large"&gt;
+    Content
+&lt;/div&gt;
+
+/* CSS */
+/* State-based styling */
+.component[data-state="loading"] {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.component[data-state="error"] {
+    border: 2px solid red;
+    background: #ffebee;
+}
+
+.component[data-state="success"] {
+    border: 2px solid green;
+    background: #e8f5e9;
+}
+
+/* Variant styling */
+.component[data-variant="primary"] {
+    background: #007bff;
+    color: white;
+}
+
+.component[data-variant="secondary"] {
+    background: #6c757d;
+    color: white;
+}
+
+/* Size styling */
+.component[data-size="small"] {
+    padding: 5px 10px;
+    font-size: 0.875em;
+}
+
+.component[data-size="large"] {
+    padding: 15px 30px;
+    font-size: 1.125em;
+}
+            </div>
+        </div>
+
+        <h3>3.3 Toggle Flags</h3>
+        <div class="example">
+            <div class="code-block">
+/* HTML */
+&lt;nav class="navigation" data-expanded="false"&gt;
+    &lt;button class="nav-toggle"&gt;☰&lt;/button&gt;
+    &lt;ul class="nav-menu"&gt;...&lt;/ul&gt;
+&lt;/nav&gt;
+
+/* CSS */
+.nav-menu {
+    display: none;
+}
+
+.navigation[data-expanded="true"] .nav-menu {
+    display: block;
+}
+
+/* Animated toggle */
+.nav-menu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.navigation[data-expanded="true"] .nav-menu {
+    max-height: 500px;
+}
+
+/* Toggle button animation */
+.nav-toggle {
+    transition: transform 0.3s;
+}
+
+.navigation[data-expanded="true"] .nav-toggle {
+    transform: rotate(90deg);
+}
+
+/* JavaScript */
+/* 
+document.querySelector('.nav-toggle').addEventListener('click', () => {
+    const nav = document.querySelector('.navigation');
+    const isExpanded = nav.dataset.expanded === 'true';
+    nav.dataset.expanded = !isExpanded;
+});
+*/
+            </div>
+        </div>
+
+        <h3>3.4 Multi-flag Combinations</h3>
+        <div class="example">
+            <div class="code-block">
+/* Multiple flags on same element */
+.button[data-variant="primary"][data-size="large"][data-disabled="false"] {
+    background: #007bff;
+    padding: 15px 30px;
+    cursor: pointer;
+}
+
+.button[data-variant="primary"][data-disabled="true"] {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+/* OR conditions using comma */
+.alert[data-type="error"],
+.alert[data-type="warning"] {
+    border-left: 4px solid red;
+}
+
+/* Complex conditions */
+.card[data-featured="true"][data-available="true"] {
+    border: 3px solid gold;
+}
+
+.card[data-featured="true"][data-available="false"] {
+    border: 3px solid gray;
+    opacity: 0.6;
+}
+            </div>
+        </div>
+
+        <h3>3.5 Dynamic Content Based on Flags</h3>
+        <div class="example">
+            <div class="code-block">
+/* Add content based on flags */
+.notification[data-type="success"]::before {
+    content: "✓ ";
+    color: green;
+}
+
+.notification[data-type="error"]::before {
+    content: "✗ ";
+    color: red;
+}
+
+.notification[data-type="warning"]::before {
+    content: "⚠ ";
+    color: orange;
+}
+
+/* Badge with count */
+.icon[data-count]::after {
+    content: attr(data-count);
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75em;
+}
+
+/* HTML: &lt;div class="icon" data-count="5"&gt;🔔&lt;/div&gt; */
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>4. Browser Feature Flags</h2>
+        <p>Understanding and working with experimental CSS features via browser flags.</p>
+
+        <h3>4.1 What are Browser Feature Flags?</h3>
+        <div class="info-box">
+            <p>Browser feature flags are experimental features that can be enabled/disabled in browser settings. They allow developers to test upcoming CSS features before they're officially released.</p>
+            <ul>
+                <li><strong>Chrome:</strong> chrome://flags</li>
+                <li><strong>Firefox:</strong> about:config</li>
+                <li><strong>Safari:</strong> Develop menu → Experimental Features</li>
+                <li><strong>Edge:</strong> edge://flags</li>
+            </ul>
+        </div>
+
+        <h3>4.2 Common Experimental CSS Features</h3>
+        <div class="example">
+            <div class="code-block">
+/* Container Queries (now stable in most browsers) */
+@container (min-width: 400px) {
+    .card {
+        display: flex;
+    }
+}
+
+/* CSS Nesting (now stable) */
+.parent {
+    color: blue;
+    
+    &amp; .child {
+        color: red;
+    }
+}
+
+/* Cascade Layers */
+@layer reset, base, components;
+
+@layer base {
+    h1 {
+        font-size: 2em;
+    }
+}
+
+/* @scope (experimental) */
+@scope (.card) {
+    .title {
+        /* Only affects .title inside .card */
+        font-size: 1.5em;
+    }
+}
+
+/* Color functions (some experimental) */
+.element {
+    background: color-mix(in srgb, blue 50%, red);
+    color: oklch(60% 0.15 200);
+}
+            </div>
+        </div>
+
+        <h3>4.3 Feature Detection for Experimental Features</h3>
+        <div class="example">
+            <div class="code-block">
+/* Check for experimental features */
+@supports (container-type: inline-size) {
+    /* Container queries supported */
+}
+
+@supports selector(:has(> *)) {
+    /* :has() supported */
+}
+
+@supports (background: color-mix(in srgb, red, blue)) {
+    /* color-mix() supported */
+}
+
+@supports (color: oklch(60% 0.15 200)) {
+    /* OKLCH color space supported */
+}
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>5. Media Query Feature Flags</h2>
+        <p>Detect device and browser capabilities using media query features.</p>
+
+        <h3>5.1 Preference-based Flags</h3>
+        <div class="example">
+            <div class="code-block">
+/* Dark mode preference */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #1a1a1a;
+        --text-color: #f0f0f0;
+    }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* High contrast preference */
+@media (prefers-contrast: high) {
+    .button {
+        border: 3px solid currentColor;
+    }
+}
+
+/* Transparency preference */
+@media (prefers-reduced-transparency: reduce) {
+    .glassmorphism {
+        background: solid white;
+        backdrop-filter: none;
+    }
+}
+            </div>
+        </div>
+
+        <h3>5.2 Device Capability Flags</h3>
+        <div class="example">
+            <div class="code-block">
+/* Touch device detection */
+@media (hover: none) and (pointer: coarse) {
+    /* Touch device */
+    .button {
+        padding: 15px;  /* Larger touch targets */
+    }
+}
+
+@media (hover: hover) and (pointer: fine) {
+    /* Mouse/trackpad device */
+    .button:hover {
+        background: blue;
+    }
+}
+
+/* Screen width flags */
+@media (max-width: 767px) {
+    :root {
+        --is-mobile: 1;
+    }
+}
+
+/* Display mode (PWA) */
+@media (display-mode: standalone) {
+    /* App is installed as PWA */
+    .install-prompt {
+        display: none;
+    }
+}
+
+/* Orientation */
+@media (orientation: portrait) {
+    .gallery {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (orientation: landscape) {
+    .gallery {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+            </div>
+        </div>
+
+        <h3>5.3 Scripting Detection</h3>
+        <div class="example">
+            <div class="code-block">
+/* Detect if JavaScript is enabled */
+@media (scripting: enabled) {
+    .js-only {
+        display: block;
+    }
+}
+
+@media (scripting: none) {
+    .no-js-fallback {
+        display: block;
+    }
+    
+    .js-required {
+        display: none;
+    }
+}
+
+/* Initial-only (JavaScript might load later) */
+@media (scripting: initial-only) {
+    .loading-state {
+        display: block;
+    }
+}
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>6. Practical Flag Patterns</h2>
+
+        <div class="example">
+            <h4>Pattern 1: Progressive Enhancement</h4>
+            <div class="code-block">
+/* Base styles (work everywhere) */
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Enhanced for Grid support */
+@supports (display: grid) {
+    .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+
+/* Enhanced for Container Queries */
+@supports (container-type: inline-size) {
+    .gallery-container {
+        container-type: inline-size;
+    }
+    
+    @container (min-width: 600px) {
+        .gallery {
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+    }
+}
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>Pattern 2: Theme System with Flags</h4>
+            <div class="code-block">
+/* HTML */
+&lt;body data-theme="dark" data-reduced-motion="false"&gt;
+
+/* CSS */
+:root {
+    /* Default (light) theme */
+    --bg: white;
+    --text: black;
+    --accent: blue;
+}
+
+[data-theme="dark"] {
+    --bg: #1a1a1a;
+    --text: #f0f0f0;
+    --accent: #66b3ff;
+}
+
+/* Combine with user preferences */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) {
+        --bg: #1a1a1a;
+        --text: #f0f0f0;
+        --accent: #66b3ff;
+    }
+}
+
+/* Animation flag */
+* {
+    transition: background-color 0.3s, color 0.3s;
+}
+
+[data-reduced-motion="true"],
+[data-reduced-motion="true"] * {
+    transition: none !important;
+    animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :root:not([data-reduced-motion="false"]) * {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>Pattern 3: Feature Flag System</h4>
+            <div class="code-block">
+/* Central feature flag configuration */
+:root {
+    /* Feature flags (0 = off, 1 = on) */
+    --enable-animations: 1;
+    --enable-shadows: 1;
+    --enable-blur: 1;
+    --enable-gradients: 1;
+    --enable-transitions: 1;
+}
+
+/* Disable all for performance mode */
+[data-performance-mode="true"] {
+    --enable-animations: 0;
+    --enable-shadows: 0;
+    --enable-blur: 0;
+    --enable-gradients: 0;
+    --enable-transitions: 0;
+}
+
+/* Apply flags */
+.button {
+    transition-duration: calc(0.3s * var(--enable-transitions));
+    box-shadow: 
+        0 
+        calc(2px * var(--enable-shadows)) 
+        calc(8px * var(--enable-shadows)) 
+        rgba(0,0,0, calc(0.1 * var(--enable-shadows)));
+}
+
+.card {
+    backdrop-filter: blur(calc(10px * var(--enable-blur)));
+}
+
+@keyframes slideIn {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+}
+
+.animated {
+    animation-name: calc(var(--enable-animations)) ? slideIn : none;
+    animation-duration: 0.5s;
+}
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>Pattern 4: Component State Machine</h4>
+            <div class="code-block">
+/* HTML */
+&lt;div class="toast" 
+     data-state="showing"
+     data-type="success"&gt;
+    Success message!
+&lt;/div&gt;
+
+/* CSS State Machine */
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s;
+}
+
+/* State: Hidden */
+.toast[data-state="hidden"] {
+    display: none;
+}
+
+/* State: Showing */
+.toast[data-state="showing"] {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* State: Hiding */
+.toast[data-state="hiding"] {
+    transform: translateY(100px);
+    opacity: 0;
+}
+
+/* Type variants */
+.toast[data-type="success"] {
+    background: #4caf50;
+    color: white;
+}
+
+.toast[data-type="error"] {
+    background: #f44336;
+    color: white;
+}
+
+.toast[data-type="warning"] {
+    background: #ff9800;
+    color: white;
+}
+
+.toast[data-type="info"] {
+    background: #2196f3;
+    color: white;
+}
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>7. Best Practices</h2>
+
+        <div class="tip">
+            <h3>DO's ✅</h3>
+            <ul>
+                <li>Use <code>@supports</code> for progressive enhancement</li>
+                <li>Provide fallbacks for unsupported features</li>
+                <li>Use CSS custom properties for themeable flags</li>
+                <li>Leverage data attributes for component states</li>
+                <li>Test with <code>prefers-reduced-motion</code> and <code>prefers-color-scheme</code></li>
+                <li>Document your flag conventions</li>
+                <li>Use semantic flag names (data-expanded, not data-open)</li>
+                <li>Combine multiple detection methods for robustness</li>
+            </ul>
+        </div>
+
+        <div class="warning">
+            <h3>DON'Ts ❌</h3>
+            <ul>
+                <li>Don't rely solely on experimental features in production</li>
+                <li>Don't forget fallbacks for older browsers</li>
+                <li>Don't use too many boolean custom properties (performance)</li>
+                <li>Don't mix data attributes with inline styles excessively</li>
+                <li>Don't ignore user preferences (reduced motion, color scheme)</li>
+                <li>Don't create overly complex flag combinations</li>
+                <li>Don't use flags for everything (sometimes direct CSS is better)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>8. Browser Compatibility Checking</h2>
+
+        <div class="example">
+            <div class="code-block">
+/* JavaScript feature detection */
+const supportsGrid = CSS.supports('display', 'grid');
+const supportsBackdrop = CSS.supports('backdrop-filter', 'blur(10px)');
+
+if (supportsGrid) {
+    document.body.classList.add('has-grid');
+}
+
+/* Add flags to HTML */
+if (CSS.supports('container-type', 'inline-size')) {
+    document.documentElement.dataset.containerQueries = 'true';
+}
+
+/* Combine with CSS */
+/* 
+[data-container-queries="true"] .component {
+    container-type: inline-size;
+}
+*/
+
+/* Modernizr-style approach */
+document.documentElement.classList.add(
+    CSS.supports('display', 'grid') ? 'grid' : 'no-grid',
+    CSS.supports('gap', '1rem') ? 'gap' : 'no-gap',
+    CSS.supports('aspect-ratio', '16/9') ? 'aspect-ratio' : 'no-aspect-ratio'
+);
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>9. Summary</h2>
+        <p>CSS "flags" encompass several powerful techniques for conditional styling:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Technique</th>
+                    <th>Use Case</th>
+                    <th>Browser Support</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>@supports</code></td>
+                    <td>Feature detection, progressive enhancement</td>
+                    <td>Excellent (IE11+)</td>
+                </tr>
+                <tr>
+                    <td>Custom Properties as Flags</td>
+                    <td>Theme switches, feature toggles</td>
+                    <td>Excellent (IE11 with polyfill)</td>
+                </tr>
+                <tr>
+                    <td>Data Attributes</td>
+                    <td>Component states, variants</td>
+                    <td>Universal</td>
+                </tr>
+                <tr>
+                    <td>Media Query Features</td>
+                    <td>User preferences, device capabilities</td>
+                    <td>Good (varies by feature)</td>
+                </tr>
+                <tr>
+                    <td>Browser Feature Flags</td>
+                    <td>Testing experimental features</td>
+                    <td>Development only</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="note">
+            <h3>Key Takeaways</h3>
+            <ul>
+                <li>Always provide fallbacks for progressive enhancement</li>
+                <li>Respect user preferences (motion, color scheme, contrast)</li>
+                <li>Use appropriate flag technique for each use case</li>
+                <li>Test across different browsers and devices</li>
+                <li>Document your flag conventions for team members</li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>
