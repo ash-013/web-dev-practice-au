@@ -1,1 +1,56 @@
 /* Write your code here: */
+
+
+/* group selector 
+    "elements" : "h1, h2"
+*/
+h1, h2 {
+    color: blueviolet;
+}
+
+/* child selector 
+    "parent" : ".box",
+    "child"  : ".done"
+*/
+
+.box > p {
+ color: firebrick;
+}
+
+/* 
+descendant selector (the properties applies to the an element that is a descendant of another element)
+
+    "ancestor" : "ul",
+    "descendant" : "li"
+*/
+
+.list li {
+    color: blue;
+}
+
+/* 
+    Chaining selectors -> Apply where ALL the selectors are true
+    
+    "element" : "li",
+    "class"   : ".done"
+*/
+
+li.done {
+    color: seagreen;
+}
+
+/*        <-- Same output -->      
+    1. Done from child selector
+    2. Done from descendant selector
+    3. Done from chaining selectors
+*/
+
+ul > p{
+    font-size: 0.5rem;
+}
+ul p {
+    font-size: 0.5rem;
+}
+ul p.done {
+    font-size: 0.5rem;
+}

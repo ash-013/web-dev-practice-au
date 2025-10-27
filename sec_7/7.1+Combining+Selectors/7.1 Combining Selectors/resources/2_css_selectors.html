@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Selectors - Complete Guide</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 4px solid #e74c3c;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #c0392b;
+            margin-top: 40px;
+            border-left: 5px solid #e74c3c;
+            padding-left: 15px;
+        }
+        h3 {
+            color: #34495e;
+            margin-top: 30px;
+        }
+        .section {
+            background: white;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .code-block {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+        }
+        .example {
+            border: 2px solid #e74c3c;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            background: #fef5f5;
+        }
+        .demo {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #bdc3c7;
+            border-radius: 3px;
+        }
+        .selector-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .selector-table th,
+        .selector-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .selector-table th {
+            background: #e74c3c;
+            color: white;
+        }
+        .selector-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        .note {
+            background: #e8f4f8;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .tip {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎯 CSS Selectors - Complete Guide</h1>
+
+    <div class="section">
+        <h2>1. Basic Selectors</h2>
+
+        <h3>1.1 Universal Selector (*)</h3>
+        <p>Selects ALL elements on the page.</p>
+        <div class="example">
+            <div class="code-block">
+/* Selects every single element */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* With namespace */
+ns|* { }  /* All elements in namespace ns */
+*|* { }   /* All elements in all namespaces */
+|* { }    /* All elements without namespace */
+            </div>
+            <div class="note">
+                <strong>Use case:</strong> CSS resets, applying box-sizing to everything.
+            </div>
+        </div>
+
+        <h3>1.2 Type Selector (Element Selector)</h3>
+        <p>Selects all elements of a given type.</p>
+        <div class="example">
+            <div class="code-block">
+/* Selects all &lt;p&gt; elements */
+p {
+    line-height: 1.6;
+}
+
+/* Selects all &lt;div&gt; elements */
+div {
+    display: block;
+}
+
+/* Selects all &lt;h1&gt; elements */
+h1 {
+    font-size: 2em;
+}
+            </div>
+            <div class="demo">
+                <p style="line-height: 1.6;">This is a paragraph affected by the p selector.</p>
+                <div style="padding: 10px; background: #f0f0f0;">This is a div affected by the div selector.</div>
+            </div>
+        </div>
+
+        <h3>1.3 Class Selector (.)</h3>
+        <p>Selects all elements with a specific class attribute.</p>
+        <div class="example">
+            <div class="code-block">
+/* Selects all elements with class="button" */
+.button {
+    padding: 10px 20px;
+    background: blue;
+    color: white;
+}
+
+/* Multiple classes - selects elements with BOTH classes */
+.button.primary {
+    background: darkblue;
+}
+
+/* Can be used multiple times */
+.nav .item .link {
+    color: blue;
+}
+            </div>
+            <div class="demo">
+                <button class="button" style="padding: 10px 20px; background: blue; color: white; border: none; border-radius: 5px;">Regular Button</button>
+                <button class="button primary" style="padding: 10px 20px; background: darkblue; color: white; border: none; border-radius: 5px; margin-left: 10px;">Primary Button</button>
+            </div>
+        </div>
+
+        <h3>1.4 ID Selector (#)</h3>
+        <p>Selects a single element with a specific ID (IDs should be unique).</p>
+        <div class="example">
+            <div class="code-block">
+/* Selects element with id="header" */
+#header {
+    background: navy;
+    color: white;
+}
+
+/* Avoid using IDs for styling - use classes instead */
+/* IDs are best for JavaScript hooks */
+
+/* Can be combined */
+div#main {
+    max-width: 1200px;
+}
+            </div>
+            <div class="warning">
+                <strong>⚠️ Warning:</strong> IDs have very high specificity (100). Prefer classes for styling to keep specificity manageable.
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>2. Attribute Selectors</h2>
+        <p>Select elements based on their attributes and attribute values.</p>
+
+        <h3>2.1 Presence Selector [attr]</h3>
+        <div class="example">
+            <div class="code-block">
+/* Selects elements that have the attribute */
+[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+[required] {
+    border-left: 3px solid red;
+}
+
+[data-tooltip] {
+    position: relative;
+}
+            </div>
+            <div class="demo">
+                <input type="text" disabled placeholder="Disabled input" style="opacity: 0.5; cursor: not-allowed; padding: 5px;">
+                <input type="text" required placeholder="Required field" style="border-left: 3px solid red; padding: 5px; margin-left: 10px;">
+            </div>
+        </div>
+
+        <h3>2.2 Exact Match [attr="value"]</h3>
+        <div class="example">
+            <div class="code-block">
+/* Exact match */
+[type="text"] {
+    border: 1px solid gray;
+}
+
+[type="email"] {
+    border: 1px solid blue;
+}
+
+[rel="nofollow"] {
+    color: gray;
+}
+            </div>
+        </div>
+
+        <h3>2.3 Contains Word [attr~="value"]</h3>
+        <div class="example">
+            <div class="code-block">
+/* Matches if attribute contains the word (space-separated) */
+[class~="btn"] {
+    padding: 10px;
+}
+
+/* Matches: class="btn primary" */
+/* Matches: class="large btn" */
+/* Doesn't match: class="button" or "btn-primary" */
+
+[title~="flower"] {
+    border: 2px solid green;
+}
+/* Matches: title="red flower" or "flower garden" */
+            </div>
+        </div>
+
+        <h3>2.4 Starts With [attr^="value"]</h3>
+        <div class="example">
+            <div class="code-block">
+/* Selects elements where attribute starts with value */
+[class^="btn-"] {
+    border-radius: 5px;
+}
+/* Matches: class="btn-primary", "btn-secondary", "btn-large" */
+
+[href^="https"] {
+    color: green;
+}
+/* Matches secure links */
+
+[src^="/images"] {
+    border: 2px solid blue;
+}
+/* Matches images from /images folder */
+            </div>
+        </div>
+
+        <h3>2.5 Ends With [attr$="value"]</h3>
+        <div class="example">
+            <div class="code-block">
+/* Selects elements where attribute ends with value */
+[href$=".pdf"] {
+    background: url('pdf-icon.png') no-repeat left;
+    padding-left: 20px;
+}
+
+[src$=".jpg"],
+[src$=".jpeg"],
+[src$=".png"] {
+    border: 3px solid #ddd;
+}
+
+[class$="-disabled"] {
+    opacity: 0.5;
+}
+/* Matches: "btn-disabled", "input-disabled" */
+            </div>
+            <div class="tip">
+                <strong>💡 Tip:</strong> Great for styling links to different file types (PDFs, DOCs, etc.).
+            </div>
+        </div>
+
+        <h3>2.6 Contains Substring [attr*="value"]</h3>
+        <div class="example">
+            <div class="code-block">
+/* Matches if attribute contains substring anywhere */
+[class*="col-"] {
+    float: left;
+}
+/* Matches: "col-6", "large-col-4", "col-md-8" */
+
+[href*="youtube"] {
+    color: red;
+}
+/* Matches any YouTube link */
+
+[title*="important"] {
+    font-weight: bold;
+}
+            </div>
+        </div>
+
+        <h3>2.7 Language Prefix [attr|="value"]</h3>
+        <div class="example">
+            <div class="code-block">
+/* Matches exact value or value followed by hyphen */
+[lang|="en"] {
+    color: blue;
+}
+/* Matches: lang="en", lang="en-US", lang="en-GB" */
+/* Doesn't match: lang="eng" */
+
+[data-country|="us"] {
+    background: url('us-flag.png');
+}
+            </div>
+        </div>
+
+        <h3>2.8 Case-Insensitive [attr="value" i]</h3>
+        <div class="example">
+            <div class="code-block">
+/* Case-insensitive matching (add 'i' flag) */
+[type="EMAIL" i] {
+    border: 1px solid blue;
+}
+/* Matches: type="email", type="EMAIL", type="Email" */
+
+[href*="PDF" i] {
+    font-weight: bold;
+}
+/* Matches .pdf, .PDF, .Pdf */
+            </div>
+        </div>
+
+        <h3>2.9 Complete Attribute Selector Examples</h3>
+        <div class="example">
+            <div class="code-block">
+/* HTML */
+&lt;a href="https://example.com/doc.pdf" class="btn-primary"&gt;Download&lt;/a&gt;
+&lt;input type="email" required&gt;
+&lt;div data-state="active" data-priority="high"&gt;&lt;/div&gt;
+
+/* CSS */
+/* External links */
+a[href^="http"]:not([href*="yourdomain.com"]) {
+    color: purple;
+}
+
+/* Download links with icons */
+a[href$=".pdf"]::before {
+    content: "📄 ";
+}
+
+a[href$=".zip"]::before {
+    content: "📦 ";
+}
+
+/* Style by data attributes */
+[data-state="active"] {
+    background: green;
+}
+
+[data-priority="high"] {
+    border: 3px solid red;
+}
+
+/* Email inputs */
+input[type="email"][required] {
+    border-left: 3px solid orange;
+}
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>3. Combinator Selectors</h2>
+        <p>Combinators explain the relationship between selectors.</p>
+
+        <h3>3.1 Descendant Selector (space)</h3>
+        <div class="example">
+            <div class="code-block">
+/* Selects all &lt;p&gt; inside &lt;div&gt; (any level deep) */
+div p {
+    color: blue;
+}
+
+/* Selects all spans inside elements with class="container" */
+.container span {
+    font-weight: bold;
+}
+
+/* Multiple levels */
+article div p span {
+    color: red;
+}
+            </div>
+            <div class="demo">
+                <div style="padding: 10px; background: #f0f0f0;">
+                    <p style="color: blue;">Direct child paragraph</p>
+                    <section>
+                        <p style="color: blue;">Nested paragraph (also selected)</p>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <h3>3.2 Child Selector (>)</h3>
+        <div class="example">
+            <div class="code-block">
+/* Selects only DIRECT children */
+div > p {
+    color: green;
+}
+
+/* Only immediate children with class="item" */
+.menu > .item {
+    display: inline-block;
+}
+
+/* Multiple levels */
+ul > li > a {
+    text-decoration: none;
+}
+            </div>
+            <div class="demo">
+                <div style="padding: 10px; background: #f0f0f0;">
+                    <p style="color: green;">Direct child (SELECTED)</p>
+                    <section>
+                        <p style="color: inherit;">Nested in section (NOT selected)</p>
+                    </section>
+                </div>
+            </div>
+            <div class="note">
+                <strong>Difference:</strong> <code>div p</code> selects ALL p elements inside div (any depth). <code>div > p</code> selects ONLY direct children.
+            </div>
+        </div>
+
+        <h3>3.3 Adjacent Sibling Selector (+)</h3>
+        <div class="example">
+            <div class="code-block">
+/* Selects &lt;p&gt; that immediately follows &lt;h2&gt; */
+h2 + p {
+    font-weight: bold;
+    margin-top: 0;
+}
+
+/* Selects div immediately after another div */
+div + div {
+    margin-top: 20px;
+}
+
+/* Common use: style first paragraph after heading */
+h1 + p {
+    font-size: 1.2em;
+    color: #666;
+}
+            </div>
+            <div class="demo">
+                <h3>Heading</h3>
+                <p style="font-weight: bold; margin-top: 0;">First paragraph (SELECTED)</p>
+                <p>Second paragraph (NOT selected)</p>
+            </div>
+        </div>
+
+        <h3>3.4 General Sibling Selector (~)</h3>
+        <div class="example">
+            <div class="code-block">
+/* Selects ALL &lt;p&gt; siblings after &lt;h2&gt; */
+h2 ~ p {
+    color: gray;
+}
+
+/* Difference from + */
+h2 + p { }  /* Only the IMMEDIATE next p */
+h2 ~ p { }  /* ALL p siblings that come after */
+
+/* Practical example */
+.checkbox:checked ~ label {
+    font-weight: bold;
+}
+            </div>
+            <div class="demo">
+                <h3>Heading</h3>
+                <div>Some div</div>
+                <p style="color: gray;">First paragraph after heading (SELECTED)</p>
+                <p style="color: gray;">Second paragraph (ALSO SELECTED)</p>
+                <p style="color: gray;">Third paragraph (ALSO SELECTED)</p>
+            </div>
+        </div>
+
+        <h3>3.5 Combinator Comparison</h3>
+        <table class="selector-table">
+            <thead>
+                <tr>
+                    <th>Combinator</th>
+                    <th>Symbol</th>
+                    <th>Selects</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Descendant</td>
+                    <td>space</td>
+                    <td>All descendants (any level)</td>
+                    <td><code>div p</code></td>
+                </tr>
+                <tr>
+                    <td>Child</td>
+                    <td>></td>
+                    <td>Direct children only</td>
+                    <td><code>div > p</code></td>
+                </tr>
+                <tr>
+                    <td>Adjacent Sibling</td>
+                    <td>+</td>
+                    <td>Immediately following sibling</td>
+                    <td><code>h2 + p</code></td>
+                </tr>
+                <tr>
+                    <td>General Sibling</td>
+                    <td>~</td>
+                    <td>All following siblings</td>
+                    <td><code>h2 ~ p</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>4. Pseudo-class Selectors</h2>
+        <p>Pseudo-classes select elements based on their state or position.</p>
+
+        <h3>4.1 Dynamic Pseudo-classes (User Actions)</h3>
+        <div class="example">
+            <div class="code-block">
+/* Link states (in this order!) */
+a:link {
+    color: blue;          /* Unvisited links */
+}
+
+a:visited {
+    color: purple;        /* Visited links */
+}
+
+a:hover {
+    color: red;          /* Mouse over */
+}
+
+a:active {
+    color: orange;       /* Being clicked */
+}
+
+/* Focus state */
+input:focus {
+    outline: 2px solid blue;
+    background: lightyellow;
+}
+
+button:focus {
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.3);
+}
+
+/* Remember: LVHA order (Link, Visited, Hover, Active) */
+            </div>
+            <div class="demo">
+                <a href="#" style="color: blue; padding: 5px;">Hover over this link</a>
+                <br><br>
+                <input type="text" placeholder="Click to focus" style="padding: 8px; border: 1px solid #ccc;">
+            </div>
+        </div>
+
+        <h3>4.2 Structural Pseudo-classes (Position-based)</h3>
+        <div class="example">
+            <h4>:first-child and :last-child</h4>
+            <div class="code-block">
+/* First child of parent */
+li:first-child {
+    font-weight: bold;
+}
+
+/* Last child of parent */
+li:last-child {
+    border-bottom: none;
+}
+
+/* First paragraph in div */
+div p:first-child {
+    margin-top: 0;
+}
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>:first-of-type and :last-of-type</h4>
+            <div class="code-block">
+/* First &lt;p&gt; among siblings */
+p:first-of-type {
+    font-size: 1.2em;
+}
+
+/* Last &lt;img&gt; in container */
+img:last-of-type {
+    margin-bottom: 0;
+}
+
+/* Difference from :first-child */
+div p:first-of-type { }  /* First p, even if div has other elements first */
+div p:first-child { }    /* p that is first child of div */
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>:nth-child() - Powerful Pattern Matching</h4>
+            <div class="code-block">
+/* Specific position */
+li:nth-child(3) {
+    color: red;          /* 3rd child */
+}
+
+/* Odd rows */
+tr:nth-child(odd) {
+    background: #f9f9f9;
+}
+
+/* Even rows */
+tr:nth-child(even) {
+    background: white;
+}
+
+/* Every 3rd element */
+li:nth-child(3n) {
+    color: blue;         /* 3, 6, 9, 12... */
+}
+
+/* Every 3rd element starting from 2nd */
+li:nth-child(3n+2) {
+    color: green;        /* 2, 5, 8, 11... */
+}
+
+/* First 5 elements */
+li:nth-child(-n+5) {
+    font-weight: bold;   /* 1, 2, 3, 4, 5 */
+}
+
+/* All except first 3 */
+li:nth-child(n+4) {
+    opacity: 0.7;        /* 4, 5, 6, 7... */
+}
+            </div>
+            <div class="demo">
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 5px; background: #f9f9f9;">Item 1 (odd)</li>
+                    <li style="padding: 5px; background: white;">Item 2 (even)</li>
+                    <li style="padding: 5px; background: #f9f9f9;">Item 3 (odd)</li>
+                    <li style="padding: 5px; background: white;">Item 4 (even)</li>
+                    <li style="padding: 5px; background: #f9f9f9;">Item 5 (odd)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>:nth-of-type()</h4>
+            <div class="code-block">
+/* Every odd paragraph */
+p:nth-of-type(odd) {
+    background: #f0f0f0;
+}
+
+/* First 3 images */
+img:nth-of-type(-n+3) {
+    border: 3px solid blue;
+}
+
+/* Every 4th div */
+div:nth-of-type(4n) {
+    margin-bottom: 40px;
+}
+            </div>
+        </div>
+
+        <div class="example">
+            <h4>:only-child and :only-of-type</h4>
+            <div class="code-block">
+/* Element that is only child of parent */
+p:only-child {
+    margin: 0;
+}
+
+/* Only &lt;p&gt; among siblings (other elements may exist) */
+p:only-of-type {
+    text-align: center;
+}
+            </div>
+        </div>
+
+        <h3>4.3 Negation Pseudo-class :not()</h3>
+        <div class="example">
+            <div class="code-block">
+/* All inputs except submit buttons */
+input:not([type="submit"]) {
+    border: 1px solid gray;
+}
+
+/* All divs without class "special" */
+div:not(.special) {
+    background: white;
+}
+
+/* All paragraphs that aren't first child */
+p:not(:first-child) {
+    margin-top: 1em;
+}
+
+/* Multiple :not() */
+button:not(.primary):not(.secondary) {
+    background: gray;
+}
+
+/* Complex negation */
+a:not([href*="external"]):not([target="_blank"]) {
+    color: blue;
+}
+            </div>
+            <div class="tip">
+                <strong>💡 Tip:</strong> :not() is extremely powerful for excluding specific elements from rules.
+            </div>
+        </div>
+
+        <h3>4.4 Form Pseudo-classes</h3>
+        <div class="example">
+            <div class="code-block">
+/* Checked checkboxes/radio buttons */
+input:checked {
+    outline: 2px solid green;
+}
+
+/* Disabled elements */
+input:disabled,
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Enabled elements */
+input:enabled {
+    background: white;
+}
+
+/* Required fields */
+input:required {
+    border-left: 3px solid red;
+}
+
+/* Optional fields */
+input:optional {
+    border-left: 3px solid green;
+}
+
+/* Valid/Invalid fields */
+input:valid {
+    border-color: green;
+}
+
+input:invalid {
+    border-color: red;
+}
+
+/* In range/Out of range (for number inputs) */
+input:in-range {
+    border-color: green;
+}
+
+input:out-of-range {
+    border-color: red;
+}
+
+/* Read-only fields */
+input:read-only {
+    background: #f5f5f5;
+}
+
+/* Placeholder shown */
+input:placeholder-shown {
+    border-style: dashed;
+}
+            </div>
+        </div>
+
+        <h3>4.5 Other Useful Pseudo-classes</h3>
+        <div class="example">
+            <div class="code-block">
+/* Empty elements */
+div:empty {
+    display: none;
+}
+
+/* Root element (html) */
+:root {
+    --main-color: blue;  /* CSS variables */
+}
+
+/* Target (element with ID matching URL hash) */
+:target {
+    background: yellow;
+    animation: highlight 2s;
+}
+
+/* Language */
+:lang(en) {
+    quotes: '"' '"';
+}
+
+:lang(fr) {
+    quotes: '«' '»';
+}
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>5. Pseudo-element Selectors</h2>
+        <p>Pseudo-elements style specific parts of an element.</p>
+
+        <h3>5.1 ::before and ::after</h3>
+        <div class="example">
+            <div class="code-block">
+/* Insert content before element */
+h2::before {
+    content: "📌 ";
+    color: red;
+}
+
+/* Insert content after element */
+a::after {
+    content: " ↗";
+}
+
+/* Create decorative elements */
+.quote::before {
+    content: open-quote;
+    font-size: 2em;
+    color: gray;
+}
+
+.quote::after {
+    content: close-quote;
+    font-size: 2em;
+    color: gray;
+}
+
+/* Icon before links */
+a[href$=".pdf"]::before {
+    content: "📄 ";
+}
+
+/* Clearfix hack */
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Decorative elements */
+.fancy-heading::before {
+    content: "";
+    display: inline-block;
+    width: 50px;
+    height: 3px;
+    background: blue;
+    margin-right: 10px;
+}
+            </div>
+            <div class="demo">
+                <h3 style="display: flex; align-items: center;">
+                    <span style="display: inline-block; width: 50px; height: 3px; background: blue; margin-right: 10px;"></span>
+                    Fancy Heading
+                </h3>
+                <p style="font-style: italic;">"<span>This is a quote with decorative quotation marks</span>"</p>
+            </div>
+            <div class="note">
+                <strong>Note:</strong> ::before and ::after require the <code>content</code> property to work, even if empty (<code>content: ""</code>).
+            </div>
+        </div>
+
+        <h3>5.2 ::first-letter and ::first-line</h3>
+        <div class="example">
+            <div class="code-block">
+/* Style first letter (drop cap) */
+p::first-letter {
+    font-size: 3em;
+    font-weight: bold;
+    float: left;
+    margin-right: 5px;
+    line-height: 1;
+}
+
+/* Style first line */
+p::first-line {
+    font-weight: bold;
+    color: blue;
+}
+            </div>
+            <div class="demo">
+                <p style="font-size: 14px;">
+                    <span style="font-size: 3em; font-weight: bold; float: left; margin-right: 5px; line-height: 1;">T</span>his is an example paragraph with a drop cap. The first letter is styled larger and bold. This creates a nice decorative effect often seen in magazines and books.
+                </p>
+            </div>
+        </div>
+
+        <h3>5.3 ::selection</h3>
+        <div class="example">
+            <div class="code-block">
+/* Style highlighted/selected text */
+::selection {
+    background: yellow;
+    color: black;
+}
+
+/* Firefox */
+::-moz-selection {
+    background: yellow;
+    color: black;
+}
+
+/* Element-specific selection */
+p::selection {
+    background: lightblue;
+}
+            </div>
+            <div class="demo">
+                <p>Try selecting this text - it should have a custom selection color!</p>
+            </div>
+        </div>
+
+        <h3>5.4 ::placeholder</h3>
+        <div class="example">
+            <div class="code-block">
+/* Style input placeholders */
+input::placeholder {
+    color: #999;
+    font-style: italic;
+    opacity: 1;
+}
+
+textarea::placeholder {
+    color: #666;
+}
+            </div>
+            <div class="demo">
+                <input type="text" placeholder="Custom styled placeholder" style="padding: 8px; border: 1px solid #ccc; width: 100%;">
+            </div>
+        </div>
+
+        <h3>5.5 ::marker</h3>
+        <div class="example">
+            <div class="code-block">
+/* Style list markers */
+li::marker {
+    color: red;
+    font-size: 1.5em;
+    content: "→ ";
+}
+
+ul li::marker {
+    content: "✓ ";
+}
+
+ol li::marker {
+    font-weight: bold;
+}
+            </div>
+        </div>
+
+        <h3>5.6 Single vs Double Colon</h3>
+        <div class="note">
+            <p><strong>CSS2:</strong> Single colon (<code>:before</code>, <code>:after</code>)</p>
+            <p><strong>CSS3:</strong> Double colon (<code>::before</code>, <code>::after</code>)</p>
+            <p><strong>Best Practice:</strong> Use double colon (::) for pseudo-elements. Browsers support both for backward compatibility.</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>6. Advanced Selectors</h2>
+
+        <h3>6.1 :is() Pseudo-class (Matches Any)</h3>
+        <div class="example">
+            <div class="code-block">
+/* Without :is() - repetitive */
+h1 a,
+h2 a,
+h3 a,
+h4 a {
+    color: blue;
+}
+
+/* With :is() - cleaner */
+:is(h1, h2, h3, h4) a {
+    color: blue;
+}
+
+/* Complex example */
+:is(section, article, aside) :is(h1, h2, h3) {
+    margin-top: 0;
+}
+
+/* Equivalent to: */
+section h1, section h2, section h3,
+article h1, article h2, article h3,
+aside h1, aside h2, aside h3 {
+    margin-top: 0;
+}
+            </div>
+            <div class="tip">
+                <strong>💡 Tip:</strong> :is() takes the specificity of its most specific argument.
+            </div>
+        </div>
+
+        <h3>6.2 :where() Pseudo-class (Zero Specificity)</h3>
+        <div class="example">
+            <div class="code-block">
+/* :where() has 0 specificity */
+:where(h1, h2, h3) {
+    margin-top: 0;       /* Specificity: 0,0,0,0 */
+}
+
+/* This wins even though it's less specific structurally */
+h2 {
+    margin-top: 20px;    /* Specificity: 0,0,0,1 - WINS! */
+}
+
+/* Use case: default styles that are easy to override */
+:where(.button) {
+    padding: 10px;
+    background: blue;
+}
+
+/* Easy to override */
+.button {
+    background: red;     /* This wins */
+}
+            </div>
+        </div>
+
+        <h3>6.3 :has() Pseudo-class (Parent Selector)</h3>
+        <div class="example">
+            <div class="code-block">
+/* Style parent based on children! */
+
+/* Div that contains a paragraph */
+div:has(p) {
+    background: lightyellow;
+}
+
+/* Form with invalid inputs */
+form:has(input:invalid) {
+    border: 2px solid red;
+}
+
+/* Article with images */
+article:has(img) {
+    display: grid;
+}
+
+/* Label followed by required input */
+label:has(+ input:required) {
+    font-weight: bold;
+}
+
+/* Card with no image */
+.card:not(:has(img)) {
+    padding: 20px;
+}
+
+/* Complex: section with h2 followed by paragraph */
+section:has(h2 + p) {
+    margin-bottom: 40px;
+}
+            </div>
+            <div class="warning">
+                <strong>⚠️ Note:</strong> :has() is a newer feature with limited browser support. Check compatibility before using.
+            </div>
+        </div>
+
+        <h3>6.4 Multiple Selectors (Grouping)</h3>
+        <div class="example">
+            <div class="code-block">
+/* Apply same styles to multiple selectors */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Georgia', serif;
+    font-weight: bold;
+}
+
+/* Multiple complex selectors */
+.nav a:hover,
+.menu a:hover,
+.footer a:hover {
+    color: red;
+}
+
+/* Maintain readability with line breaks */
+.button,
+.btn,
+[type="button"],
+[type="submit"] {
+    padding: 10px 20px;
+}
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>7. Selector Specificity Reference</h2>
+        <table class="selector-table">
+            <thead>
+                <tr>
+                    <th>Selector Type</th>
+                    <th>Example</th>
+                    <th>Specificity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Inline Style</td>
+                    <td><code>style="color: red;"</code></td>
+                    <td>1,0,0,0</td>
+                </tr>
+                <tr>
+                    <td>ID</td>
+                    <td><code>#header</code></td>
+                    <td>0,1,0,0</td>
+                </tr>
+                <tr>
+                    <td>Class</td>
+                    <td><code>.button</code></td>
+                    <td>0,0,1,0</td>
+                </tr>
+                <tr>
+                    <td>Attribute</td>
+                    <td><code>[type="text"]</code></td>
+                    <td>0,0,1,0</td>
+                </tr>
+                <tr>
+                    <td>Pseudo-class</td>
+                    <td><code>:hover</code></td>
+                    <td>0,0,1,0</td>
+                </tr>
+                <tr>
+                    <td>Element</td>
+                    <td><code>div</code></td>
+                    <td>0,0,0,1</td>
+                </tr>
+                <tr>
+                    <td>Pseudo-element</td>
+                    <td><code>::before</code></td>
+                    <td>0,0,0,1</td>
+                </tr>
+                <tr>
+                    <td>Universal</td>
+                    <td><code>*</code></td>
+                    <td>0,0,0,0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>8. Best Practices & Tips</h2>
+
+        <div class="tip">
+            <h3>DO's ✅</h3>
+            <ul>
+                <li>Use classes for styling</li>
+                <li>Keep specificity low and consistent</li>
+                <li>Use semantic selectors when possible</li>
+                <li>Leverage attribute selectors for state</li>
+                <li>Use :nth-child() for patterns</li>
+                <li>Group related selectors</li>
+                <li>Use pseudo-elements for decoration</li>
+            </ul>
+        </div>
+
+        <div class="warning">
+            <h3>DON'Ts ❌</h3>
+            <ul>
+                <li>Avoid IDs for styling (use for JS only)</li>
+                <li>Don't over-qualify selectors (<code>div.button</code> → <code>.button</code>)</li>
+                <li>Avoid deep nesting (<code>div ul li a span</code>)</li>
+                <li>Don't rely on tag names when classes exist</li>
+                <li>Avoid universal selector in large-scale CSS</li>
+                <li>Don't forget browser compatibility for newer selectors</li>
+            </ul>
+        </div>
+
+        <div class="example">
+            <h4>Good vs Bad Selector Examples</h4>
+            <div class="code-block">
+/* ❌ BAD */
+#content div.sidebar ul li a.active {
+    color: red;  /* Too specific! */
+}
+
+div.button {
+    padding: 10px;  /* Unnecessarily qualified */
+}
+
+/* ✅ GOOD */
+.nav-link-active {
+    color: red;  /* Simple, specific enough */
+}
+
+.button {
+    padding: 10px;  /* Clean, reusable */
+}
+
+/* ❌ BAD */
+div div div p {
+    color: blue;  /* Fragile, depends on structure */
+}
+
+/* ✅ GOOD */
+.content-text {
+    color: blue;  /* Clear intent, maintainable */
+}
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>9. Complete Practical Example</h2>
+        <div class="example">
+            <div class="code-block">
+/* HTML Structure */
+&lt;nav class="main-nav"&gt;
+    &lt;ul&gt;
+        &lt;li&gt;&lt;a href="/" class="active"&gt;Home&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="/about"&gt;About&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="/contact"&gt;Contact&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/nav&gt;
+
+/* CSS Using Various Selectors */
+
+/* Basic styling */
+.main-nav {
+    background: #333;
+    padding: 0;
+}
+
+/* Remove list styles */
+.main-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Inline list items */
+.main-nav li {
+    display: inline-block;
+}
+
+/* Style all links */
+.main-nav a {
+    display: block;
+    padding: 15px 20px;
+    color: white;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+/* Hover effect */
+.main-nav a:hover {
+    background: #555;
+}
+
+/* Active link */
+.main-nav a.active {
+    background: #0066cc;
+}
+
+/* First link special styling */
+.main-nav li:first-child a {
+    border-left: 3px solid #0066cc;
+}
+
+/* Last link special styling */
+.main-nav li:last-child a {
+    border-right: 3px solid #0066cc;
+}
+
+/* Add icon to external links */
+.main-nav a[href^="http"]::after {
+    content: " ↗";
+    font-size: 0.8em;
+}
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
